@@ -1,7 +1,7 @@
 aw-watcher-afk-barrier
 ==============
 
-# ActivityWatcher Barrier
+# [ActivityWatch](https://github.com/ActivityWatch/activitywatch) Watcher for [Barrier](https://github.com/debauchee/barrier)
 
 ## What is it for?
 A custom watcher for users using [ActivityWatch](https://github.com/ActivityWatch/activitywatch) together with [Barrier](https://github.com/debauchee/barrier)
