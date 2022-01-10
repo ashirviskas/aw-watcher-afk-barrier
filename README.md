@@ -4,7 +4,7 @@ aw-watcher-afk-barrier
 # ActivityWatcher Barrier
 
 ## What is it for?
-A custom watcher for users using ActivityWatcher together with [Barrier](https://github.com/debauchee/barrier)
+A custom watcher for users using [ActivityWatch](https://github.com/ActivityWatch/activitywatch) together with [Barrier](https://github.com/debauchee/barrier)
 
 Watches your keyboard and mouse activity to determine if you are AFK or not
 
@@ -22,9 +22,9 @@ the poetry.lock file.
 
 
 ## Instructions
-Needs to run only on Barrier host.
+*Needs to run only on Barrier host.*
 
-1. Disable default ActivityWatch `aw-watcher-afk`. Right-click on the tray icon and in modules deselect `aw-watcher-afk`
+1. Disable default ActivityWatch `aw-watcher-afk`. For quick testing, you can just right-click on the tray icon and in modules deselect `aw-watcher-afk`, but if you want a permament solution, see [ErikBjare comment](https://github.com/ActivityWatch/activitywatch/issues/704#issuecomment-1009253158)
 2. Run it via `poetry run aw-watcher-afk-barrier` and optionally add it to your autostart
 
 
