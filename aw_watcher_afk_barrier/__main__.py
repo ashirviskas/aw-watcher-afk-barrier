@@ -2,7 +2,7 @@ import argparse
 
 from aw_core.log import setup_logging
 
-from aw_watcher_afk.afk import AFKWatcher
+from aw_watcher_afk_barrier.afk import AFKWatcher
 
 
 def main() -> None:

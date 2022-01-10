@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['aw_watcher_afk/__main__.py'],
+a = Analysis(['aw_watcher_afk_barrier/__main__.py'],
              pathex=[],
              binaries=None,
              datas=None,

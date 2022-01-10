@@ -3,9 +3,45 @@ import platform
 from datetime import datetime, timedelta, timezone
 from time import sleep
 import os
+import Xlib.display
+import contextlib
+
 
 from aw_core.models import Event
 from aw_client import ActivityWatchClient
+
+class X11Error(Exception):
+    """An error that is thrown at the end of a code block managed by a
+    :func:`display_manager` if an *X11* error occurred.
+    """
+    pass
+
+@contextlib.contextmanager
+def display_manager(display):
+    """Traps *X* errors and raises an :class:``X11Error`` at the end if any
+    error occurred.
+    This handler also ensures that the :class:`Xlib.display.Display` being
+    managed is sync'd.
+    :param Xlib.display.Display display: The *X* display.
+    :return: the display
+    :rtype: Xlib.display.Display
+    """
+    errors = []
+
+    def handler(*args):
+        """The *Xlib* error handler.
+        """
+        errors.append(args)
+
+    old_handler = display.set_error_handler(handler)
+    try:
+        yield display
+        display.sync()
+    finally:
+        display.set_error_handler(old_handler)
+    if errors:
+        raise X11Error(errors)
+
 
 from .config import watcher_config
 
@@ -25,6 +61,8 @@ logger = logging.getLogger(__name__)
 td1ms = timedelta(milliseconds=1)
 
 
+
+
 class Settings:
     def __init__(self, config_section):
         # Time without input before we're considering the user as AFK
@@ -36,7 +74,7 @@ class Settings:
 
 
 class AFKWatcher:
-    def __init__(self, testing=False):
+    def __init__(self, display, testing=False):
         # Read settings from config
         configsection = "aw-watcher-afk" if not testing else "aw-watcher-afk-testing"
         self.settings = Settings(watcher_config[configsection])
@@ -45,6 +83,7 @@ class AFKWatcher:
         self.bucketname = "{}_{}".format(
             self.client.client_name, self.client.client_hostname
         )
+        self.display = display
 
     def ping(self, afk: bool, timestamp: datetime, duration: float = 0):
         data = {"status": "afk" if afk else "not-afk"}
@@ -65,6 +104,17 @@ class AFKWatcher:
         with self.client:
             self.heartbeat_loop()
 
+    def is_barrier_host_active(self):
+        with display_manager(self.display) as dm:
+            qp = dm.screen().root.query_pointer()
+            child = qp._data.get('child', None)
+            if child is 0:
+                return True
+            # For some reason the child window when the cursor leaves the display using barrier gets this id or higher, no idea how or why, but it seems to work.
+            if child.id < 27262976:  # hex for 01a00000
+                return True
+            return False
+
     def heartbeat_loop(self):
         afk = False
         while True:
@@ -82,7 +132,7 @@ class AFKWatcher:
                 logger.debug("Seconds since last input: {}".format(seconds_since_input))
 
                 # If no longer AFK
-                if afk and seconds_since_input < self.settings.timeout:
+                if afk and seconds_since_input < self.settings.timeout and self.is_barrier_host_active():
                     logger.info("No longer AFK")
                     self.ping(afk, timestamp=last_input)
                     afk = False

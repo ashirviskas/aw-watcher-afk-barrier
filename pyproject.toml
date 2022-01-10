@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "aw-watcher-afk"
+name = "aw-watcher-afk-barrier"
 version = "0.2.0"
 description = ""
-authors = ["Erik Bjäreholt <erik@bjareho.lt>"]
+authors = ["Erik Bjäreholt <erik@bjareho.lt>", "Matas Minelga <minematas@gmail.com>"]
 license = "MPL-2.0"
 
 [tool.poetry.scripts]
-aw-watcher-afk = "aw_watcher_afk:main"
+aw-watcher-afk-barrier = "aw_watcher_afk-barrier:main"
 
 [tool.poetry.dependencies]
 python = "^3.7"
