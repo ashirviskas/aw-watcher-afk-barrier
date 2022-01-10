@@ -21,5 +21,13 @@ that it might not get the exact version of the dependencies due to not reading
 the poetry.lock file.
 
 
+## Instructions
+Needs to run only on Barrier host.
+
+1. Disable default ActivityWatch `aw-watcher-afk`. Right-click on the tray icon and in modules deselect `aw-watcher-afk`
+2. Run it via `poetry run aw-watcher-afk-barrier` and optionally add it to your autostart
+
+
+
 ## Support
 Linux support only for now. Feel free to do a PR for your platform.
