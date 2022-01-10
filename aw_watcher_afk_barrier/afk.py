@@ -48,9 +48,9 @@ from .config import watcher_config
 system = platform.system()
 
 if system == "Windows":
-    from .windows import seconds_since_last_input
+    raise Exception("Unsupported platform: {}".format(system))
 elif system == "Darwin":
-    from .macos import seconds_since_last_input
+    raise Exception("Unsupported platform: {}".format(system))
 elif system == "Linux":
     from .unix import seconds_since_last_input
 else:
@@ -74,16 +74,16 @@ class Settings:
 
 
 class AFKWatcher:
-    def __init__(self, display, testing=False):
+    def __init__(self, testing=False):
         # Read settings from config
-        configsection = "aw-watcher-afk" if not testing else "aw-watcher-afk-testing"
+        configsection = "aw-watcher-afk-barrier" if not testing else "aw-watcher-afk-barrier-testing"
         self.settings = Settings(watcher_config[configsection])
 
         self.client = ActivityWatchClient("aw-watcher-afk", testing=testing)
         self.bucketname = "{}_{}".format(
             self.client.client_name, self.client.client_hostname
         )
-        self.display = display
+        self.display = Xlib.display.Display()
 
     def ping(self, afk: bool, timestamp: datetime, duration: float = 0):
         data = {"status": "afk" if afk else "not-afk"}
@@ -92,7 +92,7 @@ class AFKWatcher:
         self.client.heartbeat(self.bucketname, e, pulsetime=pulsetime, queued=True)
 
     def run(self):
-        logger.info("aw-watcher-afk started")
+        logger.info("aw-watcher-afk-barrier started")
 
         # Initialization
         sleep(1)
@@ -139,7 +139,7 @@ class AFKWatcher:
                     # ping with timestamp+1ms with the next event (to ensure the latest event gets retreived by get_event)
                     self.ping(afk, timestamp=last_input + td1ms)
                 # If becomes AFK
-                elif not afk and seconds_since_input >= self.settings.timeout:
+                elif not afk and (seconds_since_input >= self.settings.timeout or (not self.is_barrier_host_active())):
                     logger.info("Became AFK")
                     self.ping(afk, timestamp=last_input)
                     afk = True
