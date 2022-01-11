@@ -48,22 +48,30 @@ version = "0.5.7"
 description = "Core library for ActivityWatch"
 category = "main"
 optional = false
-python-versions = ">=3.7,<4.0"
+python-versions = "^3.7"
+develop = false
 
 [package.dependencies]
-appdirs = ">=1.4.3,<2.0.0"
+appdirs = "^1.4.4"
 deprecation = "*"
-iso8601 = ">=0.1.12,<0.2.0"
-jsonschema = ">=3.1,<4.0"
-peewee = ">=3.0.0,<4.0.0"
+iso8601 = "^1.0.2"
+jsonschema = "^4.3"
+peewee = "3.*"
 python-json-logger = "*"
-strict-rfc3339 = ">=0.7,<0.8"
-TakeTheTime = ">=0.3.1,<0.4.0"
+rfc3339-validator = "^0.1.4"
+strict-rfc3339 = "^0.7"
+TakeTheTime = "^0.3.1"
 timeslot = "*"
 tomlkit = "*"
 
 [package.extras]
 mongo = ["pymongo (>=3.10.0,<4.0.0)"]
+
+[package.source]
+type = "git"
+url = "git@github.com:ActivityWatch/aw-core.git"
+reference = "master"
+resolved_reference = "ab7efc805f1e4241dd94c55c4e3e260547d09554"
 
 [[package]]
 name = "certifi"
@@ -149,30 +157,46 @@ perf = ["ipython"]
 testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.0.1)", "packaging", "pyfakefs", "flufl.flake8", "pytest-perf (>=0.9.2)", "pytest-black (>=0.3.7)", "pytest-mypy", "importlib-resources (>=1.3)"]
 
 [[package]]
+name = "importlib-resources"
+version = "5.4.0"
+description = "Read resources from Python packages"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+zipp = {version = ">=3.1.0", markers = "python_version < \"3.10\""}
+
+[package.extras]
+docs = ["sphinx", "jaraco.packaging (>=8.2)", "rst.linker (>=1.9)"]
+testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.0.1)", "pytest-black (>=0.3.7)", "pytest-mypy"]
+
+[[package]]
 name = "iso8601"
-version = "0.1.16"
+version = "1.0.2"
 description = "Simple module to parse ISO 8601 dates"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.6.2,<4.0"
 
 [[package]]
 name = "jsonschema"
-version = "3.2.0"
+version = "4.3.3"
 description = "An implementation of JSON Schema validation for Python"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 
 [package.dependencies]
 attrs = ">=17.4.0"
 importlib-metadata = {version = "*", markers = "python_version < \"3.8\""}
-pyrsistent = ">=0.14.0"
-six = ">=1.11.0"
+importlib-resources = {version = ">=1.4.0", markers = "python_version < \"3.9\""}
+pyrsistent = ">=0.14.0,<0.17.0 || >0.17.0,<0.17.1 || >0.17.1,<0.17.2 || >0.17.2"
+typing-extensions = {version = "*", markers = "python_version < \"3.8\""}
 
 [package.extras]
-format = ["idna", "jsonpointer (>1.13)", "rfc3987", "strict-rfc3339", "webcolors"]
-format_nongpl = ["idna", "jsonpointer (>1.13)", "webcolors", "rfc3986-validator (>0.1.0)", "rfc3339-validator"]
+format = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-validator", "rfc3987", "uri-template", "webcolors (>=1.11)"]
+format_nongpl = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-validator", "rfc3986-validator (>0.1.0)", "uri-template", "webcolors (>=1.11)"]
 
 [[package]]
 name = "macholib"
@@ -343,6 +367,17 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)", "win-inet-pton"]
 use_chardet_on_py3 = ["chardet (>=3.0.2,<5)"]
 
 [[package]]
+name = "rfc3339-validator"
+version = "0.1.4"
+description = "A pure python RFC3339 validator"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+
+[package.dependencies]
+six = "*"
+
+[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -434,7 +469,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "80246853afd2141cf17e2c7fed1fa0a9eed01af65186e84a8e0fdba4843c18c6"
+content-hash = "297a7d49ea5dc8c078d162d462d166aef15917487165f146a7982f26d3759de9"
 
 [metadata.files]
 altgraph = [
@@ -453,10 +488,7 @@ aw-client = [
     {file = "aw-client-0.5.7.tar.gz", hash = "sha256:fe61d5f2f10be9bf38ff0db509a6bda139a05126b5b30258e94ca25ce5cc6003"},
     {file = "aw_client-0.5.7-py3-none-any.whl", hash = "sha256:5807dfe33d8e74856ec65c8ee2910f062d5654f4cd5f2366d43409c1c4be357e"},
 ]
-aw-core = [
-    {file = "aw-core-0.5.7.tar.gz", hash = "sha256:ee0fcf372f915f3284991241343f8cf43e984faf4fcac08b5d00e23da2e74387"},
-    {file = "aw_core-0.5.7-py3-none-any.whl", hash = "sha256:7ab6835ee6aed1eb7248f6f22d8899c333bc5ebb82ec1f74e5b9926f15e24489"},
-]
+aw-core = []
 certifi = [
     {file = "certifi-2021.10.8-py2.py3-none-any.whl", hash = "sha256:d62a0163eb4c2344ac042ab2bdf75399a71a2d8c7d47eac2e2ee91b9d6339569"},
     {file = "certifi-2021.10.8.tar.gz", hash = "sha256:78884e7c1d4b00ce3cea67b44566851c4343c120abd683433ce934a68ea58872"},
@@ -488,13 +520,17 @@ importlib-metadata = [
     {file = "importlib_metadata-4.10.0-py3-none-any.whl", hash = "sha256:b7cf7d3fef75f1e4c80a96ca660efbd51473d7e8f39b5ab9210febc7809012a4"},
     {file = "importlib_metadata-4.10.0.tar.gz", hash = "sha256:92a8b58ce734b2a4494878e0ecf7d79ccd7a128b5fc6014c401e0b61f006f0f6"},
 ]
+importlib-resources = [
+    {file = "importlib_resources-5.4.0-py3-none-any.whl", hash = "sha256:33a95faed5fc19b4bc16b29a6eeae248a3fe69dd55d4d229d2b480e23eeaad45"},
+    {file = "importlib_resources-5.4.0.tar.gz", hash = "sha256:d756e2f85dd4de2ba89be0b21dba2a3bbec2e871a42a3a16719258a11f87506b"},
+]
 iso8601 = [
-    {file = "iso8601-0.1.16-py2.py3-none-any.whl", hash = "sha256:906714829fedbc89955d52806c903f2332e3948ed94e31e85037f9e0226b8376"},
-    {file = "iso8601-0.1.16.tar.gz", hash = "sha256:36532f77cc800594e8f16641edae7f1baf7932f05d8e508545b95fc53c6dc85b"},
+    {file = "iso8601-1.0.2-py3-none-any.whl", hash = "sha256:d7bc01b1c2a43b259570bb307f057abc578786ea734ba2b87b836c5efc5bd443"},
+    {file = "iso8601-1.0.2.tar.gz", hash = "sha256:27f503220e6845d9db954fb212b95b0362d8b7e6c1b2326a87061c3de93594b1"},
 ]
 jsonschema = [
-    {file = "jsonschema-3.2.0-py2.py3-none-any.whl", hash = "sha256:4e5b3cf8216f577bee9ce139cbe72eca3ea4f292ec60928ff24758ce626cd163"},
-    {file = "jsonschema-3.2.0.tar.gz", hash = "sha256:c8a85b28d377cc7737e46e2d9f2b4f44ee3c0e1deac6bf46ddefc7187d30797a"},
+    {file = "jsonschema-4.3.3-py3-none-any.whl", hash = "sha256:eb7a69801beb7325653aa8fd373abbf9ff8f85b536ab2812e5e8287b522fb6a2"},
+    {file = "jsonschema-4.3.3.tar.gz", hash = "sha256:f210d4ce095ed1e8af635d15c8ee79b586f656ab54399ba87b8ab87e5bff0ade"},
 ]
 macholib = [
     {file = "macholib-1.15.1-py2.py3-none-any.whl", hash = "sha256:3781768cdbc8c7996cbf0c61844e80e715f870385358b17602b1c9c1eba9f48e"},
@@ -613,6 +649,10 @@ python-xlib = [
 requests = [
     {file = "requests-2.27.1-py2.py3-none-any.whl", hash = "sha256:f22fa1e554c9ddfd16e6e41ac79759e17be9e492b3587efa038054674760e72d"},
     {file = "requests-2.27.1.tar.gz", hash = "sha256:68d7c56fd5a8999887728ef304a6d12edc7be74f1cfa47714fc8b414525c9a61"},
+]
+rfc3339-validator = [
+    {file = "rfc3339_validator-0.1.4-py2.py3-none-any.whl", hash = "sha256:24f6ec1eda14ef823da9e36ec7113124b39c04d50a4d3d3a3c2859577e7791fa"},
+    {file = "rfc3339_validator-0.1.4.tar.gz", hash = "sha256:138a2abdf93304ad60530167e51d2dfb9549521a836871b88d7f4695d0022f6b"},
 ]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},

@@ -1,13 +1,15 @@
 aw-watcher-afk-barrier
 ==============
 
-# [ActivityWatch](https://github.com/ActivityWatch/activitywatch) Watcher for [Barrier](https://github.com/debauchee/barrier)
+# [ActivityWatch](https://github.com/ActivityWatch/activitywatch) AFK Watcher for [Barrier](https://github.com/debauchee/barrier)
 
 ## What is it for?
 A custom watcher for users using [ActivityWatch](https://github.com/ActivityWatch/activitywatch) together with [Barrier](https://github.com/debauchee/barrier)
 
+
 Watches your keyboard and mouse activity to determine if you are AFK or not
 
+**Replaces default `aw-watcher-afk`**
 ## How to install
 To build your own packaged application, run `make package`
 
@@ -25,7 +27,12 @@ the poetry.lock file.
 *Needs to run only on Barrier host.*
 
 1. Disable default ActivityWatch `aw-watcher-afk`. For quick testing, you can just right-click on the tray icon and in modules deselect `aw-watcher-afk`, but if you want a permament solution, see [ErikBjare comment](https://github.com/ActivityWatch/activitywatch/issues/704#issuecomment-1009253158)
-2. Run it via `poetry run aw-watcher-afk-barrier` and optionally add it to your autostart
+2. Run it via `poetry run aw-watcher-afk-barrier`
+
+You can also make it autostart:
+1. `make package`
+2. `ln -s dist/aw-watcher-afk-barrier/aw-watcher-afk-barrier /usr/bin/`
+3. Go to `~/.config/activitywatch/aw-qt/aw-qt.toml` and add `aw-watcher-afk-barrier` to `autostart_modules`
 
 
 

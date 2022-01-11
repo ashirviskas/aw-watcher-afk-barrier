@@ -15,6 +15,7 @@ pyobjc-framework-Quartz = { version = "^7.0", platform = "darwin" }
 python-xlib = { version = "^0.28", platform = "linux" }
 pynput = "^1.7.3"
 setuptools = "^60.5.0"
+aw-core = {git = "git@github.com:ActivityWatch/aw-core.git"}
 
 [tool.poetry.dev-dependencies]
 mypy = "*"
