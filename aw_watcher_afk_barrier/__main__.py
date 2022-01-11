@@ -2,7 +2,7 @@ import argparse
 
 from aw_core.log import setup_logging
 
-from aw_watcher_afk.afk import AFKWatcher
+from aw_watcher_afk_barrier.afk import AFKWatcher
 
 
 def main() -> None:
@@ -15,7 +15,7 @@ def main() -> None:
     args = parser.parse_args()
 
     # Set up logging
-    setup_logging("aw-watcher-afk",
+    setup_logging("aw-watcher-afk-barrier",
                   testing=args.testing, verbose=args.verbose,
                   log_stderr=True, log_file=True)
 
